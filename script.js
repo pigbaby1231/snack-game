@@ -15,6 +15,7 @@ let direction = 'right';
 let score = 0;
 let gameOver = false;
 let gameInterval;
+let gameSpeed;
 
 function generateFood() {
   food = {
@@ -74,6 +75,12 @@ function update() {
     score++;
     scoreElement.textContent = score;
     generateFood();
+    
+    // Increase speed by decreasing the interval time
+    gameSpeed = Math.max(30, 100 - score); // a score of 1 makes speed 99, etc.
+    clearInterval(gameInterval);
+    gameInterval = setInterval(update, gameSpeed);
+
   } else {
     snake.pop();
   }
@@ -120,7 +127,8 @@ function startGame() {
   gameOver = false;
   generateFood();
   clearInterval(gameInterval);
-  gameInterval = setInterval(update, 100);
+  gameSpeed = 100;
+  gameInterval = setInterval(update, gameSpeed);
 }
 
 startGame();
